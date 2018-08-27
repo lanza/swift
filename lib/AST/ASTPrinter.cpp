@@ -477,7 +477,7 @@ class PrintAST : public ASTVisitor<PrintAST> {
     bool Invalid;
     unsigned StartLocCol =
         ClangContext.getSourceManager().getSpellingColumnNumber(
-            RC->getLocStart(), &Invalid);
+            RC->getBeginLoc(), &Invalid);
     if (Invalid)
       StartLocCol = 0;
 
