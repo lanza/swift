@@ -1116,8 +1116,8 @@ class RefCounts {
 typedef RefCounts<InlineRefCountBits> InlineRefCounts;
 typedef RefCounts<SideTableRefCountBits> SideTableRefCounts;
 
-static_assert(swift::IsTriviallyConstructible<InlineRefCounts>::value,
-              "InlineRefCounts must be trivially initializable");
+/* static_assert(swift::IsTriviallyConstructible<InlineRefCounts>::value, */
+/*               "InlineRefCounts must be trivially initializable"); */
 static_assert(std::is_trivially_destructible<InlineRefCounts>::value,
               "InlineRefCounts must be trivially destructible");
 

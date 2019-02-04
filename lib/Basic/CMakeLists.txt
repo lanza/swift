@@ -30,25 +30,13 @@ macro(find_first_existing_vc_file out_var path)
     )
 endmacro()
 
-set(get_svn_script "${LLVM_MAIN_SRC_DIR}/cmake/modules/GetSVN.cmake")
 
 function(generate_revision_inc revision_inc_var name dir)
   find_first_existing_vc_file(dep_file "${dir}")
   # Create custom target to generate the VC revision include.
   set(revision_inc "${CMAKE_CURRENT_BINARY_DIR}/${name}Revision.inc")
   string(TOUPPER ${name} upper_name)
-  if(DEFINED dep_file)
-    add_custom_command(OUTPUT "${revision_inc}"
-      DEPENDS "${dep_file}" "${get_svn_script}"
-      COMMAND
-      ${CMAKE_COMMAND} "-DFIRST_SOURCE_DIR=${dir}"
-                       "-DFIRST_NAME=${upper_name}"
-                       "-DHEADER_FILE=${revision_inc}"
-                       -P "${get_svn_script}")
-  else()
-    # Generate an empty Revision.inc file if we are not using git or SVN.
-    file(WRITE "${revision_inc}" "")
-  endif()
+  file(WRITE "${revision_inc}" "")
 
   # Mark the generated header as being generated.
   set_source_files_properties("${revision_inc}"
