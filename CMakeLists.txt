@@ -862,7 +862,12 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin")
   endif()
 endif()
 
-find_package(PythonInterp REQUIRED)
+if (SWIFT_PYTHON_EXECUTABLE)
+  set(PYTHON_EXECUTABLE "${SWIFT_PYTHON_EXECUTABLE}")
+else()
+  set(PYTHON_EXECUTABLE "C:\\Python27amd64\\python.exe")
+endif()
+find_package(PythonInterp 2.7.14 EXACT REQUIRED)
 
 #
 # Find optional dependencies.
