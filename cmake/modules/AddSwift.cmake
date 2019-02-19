@@ -363,6 +363,9 @@ function(_add_variant_swift_compile_flags
   is_build_type_with_debuginfo("${build_type}" debuginfo)
   if(debuginfo)
     list(APPEND result "-g")
+    if(SWIFT_COMPILER_IS_MSVC_LIKE)
+      list(APPEND result -debug-info-format=codeview)
+    endif()
   endif()
 
   if(enable_assertions)
