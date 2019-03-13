@@ -1849,13 +1849,14 @@ void IRGenDebugInfoImpl::popLoc() {
 /// of the function.
 void IRGenDebugInfoImpl::setInlinedTrapLocation(IRBuilder &Builder,
                                                 const SILDebugScope *Scope) {
-  if (Opts.DebugInfoFormat != IRGenDebugInfoFormat::CodeView)
-    return;
-  auto DLInlinedAt = llvm::DebugLoc::get(LastDebugLoc.Line, LastDebugLoc.Column,
-                                         getOrCreateScope(LastScope));
-  // FIXME: This location should point to stdlib instead of being artificial.
-  auto DL = llvm::DebugLoc::get(0, 0, getOrCreateScope(Scope), DLInlinedAt);
-  Builder.SetCurrentDebugLocation(DL);
+  return;
+  /* if (Opts.DebugInfoFormat != IRGenDebugInfoFormat::CodeView) */
+  /*   return; */
+  /* auto DLInlinedAt = llvm::DebugLoc::get(LastDebugLoc.Line, LastDebugLoc.Column, */
+  /*                                        getOrCreateScope(LastScope)); */
+  /* // FIXME: This location should point to stdlib instead of being artificial. */
+  /* auto DL = llvm::DebugLoc::get(0, 0, getOrCreateScope(Scope), DLInlinedAt); */
+  /* Builder.SetCurrentDebugLocation(DL); */
 }
 
 void IRGenDebugInfoImpl::setEntryPointLoc(IRBuilder &Builder) {
