@@ -1851,10 +1851,16 @@ void IRGenDebugInfoImpl::setInlinedTrapLocation(IRBuilder &Builder,
                                                 const SILDebugScope *Scope) {
   if (Opts.DebugInfoFormat != IRGenDebugInfoFormat::CodeView)
     return;
-  auto DLInlinedAt = llvm::DebugLoc::get(LastDebugLoc.Line, LastDebugLoc.Column,
-                                         getOrCreateScope(LastScope));
+
+  const SILDebugScope *TheLastScope = LastScope;
+  while (TheLastScope->InlinedCallSite &&
+         TheLastScope != TheLastScope->InlinedCallSite) {
+    TheLastScope = TheLastScope->InlinedCallSite;
+  }
+  auto LastLocation = llvm::DebugLoc::get(
+      LastDebugLoc.Line, LastDebugLoc.Column, getOrCreateScope(TheLastScope));
   // FIXME: This location should point to stdlib instead of being artificial.
-  auto DL = llvm::DebugLoc::get(0, 0, getOrCreateScope(Scope), DLInlinedAt);
+  auto DL = llvm::DebugLoc::get(0, 0, getOrCreateScope(Scope), LastLocation);
   Builder.SetCurrentDebugLocation(DL);
 }
 
